@@ -1,0 +1,249 @@
+{
+  "ingredients": [
+    {
+      "id": "carne",
+      "name": "Carne",
+      "types": [
+        {
+          "id": "pui",
+          "name": "Pui"
+        },
+        {
+          "id": "vita",
+          "name": "Vită"
+        },
+        {
+          "id": "amestec",
+          "name": "Amestec"
+        }
+      ]
+    },
+    {
+      "id": "lipie",
+      "name": "Lipie",
+      "types": [
+        {
+          "id": "clasica",
+          "name": "Clasică"
+        },
+        {
+          "id": "integrala",
+          "name": "Integrală"
+        }
+      ]
+    },
+    {
+      "id": "sos",
+      "name": "Sos",
+      "types": [
+        {
+          "id": "usturoi",
+          "name": "Usturoi"
+        },
+        {
+          "id": "picant",
+          "name": "Picant"
+        },
+        {
+          "id": "iaurt",
+          "name": "Iaurt"
+        }
+      ]
+    },
+    {
+      "id": "salata",
+      "name": "Salată",
+      "types": [
+        {
+          "id": "standard",
+          "name": "Standard"
+        },
+        {
+          "id": "muraturi",
+          "name": "Cu murături"
+        }
+      ]
+    }
+  ],
+  "restaurants": [
+    {
+      "id": "demo-baneasa",
+      "name": "Shaormeria Băneasa",
+      "address": "Șos. București-Ploiești 42D, București",
+      "lat": 44.4942,
+      "lng": 26.0781,
+      "isDemo": true,
+      "reviews": [
+        {
+          "id": "rev-baneasa-1",
+          "visitedAt": "2026-03-12",
+          "description": "Lipie bine rumeneată, carne suculentă, porție cinstită. Un reper sigur în nord.",
+          "generalScore": 9.2,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "pui",
+              "score": 9.1,
+              "note": "Rumenită, fără uscăciune."
+            },
+            {
+              "ingredientId": "lipie",
+              "typeId": "clasica",
+              "score": 9
+            },
+            {
+              "ingredientId": "sos",
+              "typeId": "usturoi",
+              "score": 8.8,
+              "note": "Intens, dar nu acoperă carnea."
+            }
+          ]
+        },
+        {
+          "id": "rev-baneasa-2",
+          "visitedAt": "2025-11-02",
+          "description": "Foarte bună și atunci, doar că sosul a fost puțin mai timid.",
+          "generalScore": 8.6,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "pui",
+              "score": 8.7
+            },
+            {
+              "ingredientId": "sos",
+              "typeId": "usturoi",
+              "score": 7.9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demo-unirii",
+      "name": "Doner House Unirii",
+      "address": "Bulevardul Unirii 15, București",
+      "lat": 44.4261,
+      "lng": 26.1028,
+      "isDemo": true,
+      "reviews": [
+        {
+          "id": "rev-unirii-1",
+          "visitedAt": "2026-06-18",
+          "description": "Rapid, consistent, cu vită bine condimentată. Salata e proaspătă, lipia puțin groasă.",
+          "generalScore": 8.3,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "vita",
+              "score": 8.5,
+              "note": "Condimentată corect."
+            },
+            {
+              "ingredientId": "lipie",
+              "typeId": "clasica",
+              "score": 7.6
+            },
+            {
+              "ingredientId": "salata",
+              "typeId": "standard",
+              "score": 8.2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demo-titan",
+      "name": "Kebab Palace Titan",
+      "address": "Bulevardul 1 Decembrie 1918 33, București",
+      "lat": 44.4218,
+      "lng": 26.1664,
+      "isDemo": true,
+      "reviews": [
+        {
+          "id": "rev-titan-1",
+          "visitedAt": "2026-04-04",
+          "description": "Porție mare, carne onestă, dar sosul picant domină tot. Bun pentru foame serioasă.",
+          "generalScore": 7.4,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "amestec",
+              "score": 7.5
+            },
+            {
+              "ingredientId": "sos",
+              "typeId": "picant",
+              "score": 6.8,
+              "note": "Prea agresiv pentru restul."
+            },
+            {
+              "ingredientId": "salata",
+              "typeId": "muraturi",
+              "score": 7.6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demo-drumul-taberei",
+      "name": "La Turcu Drumul Taberei",
+      "address": "Drumul Taberei 84, București",
+      "lat": 44.4204,
+      "lng": 26.0369,
+      "isDemo": true,
+      "reviews": [
+        {
+          "id": "rev-taberei-1",
+          "visitedAt": "2026-01-22",
+          "description": "Preț ok, execuție medie. Lipia a venit moale, carnea a fost corectă fără să impresioneze.",
+          "generalScore": 6.4,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "pui",
+              "score": 6.6
+            },
+            {
+              "ingredientId": "lipie",
+              "typeId": "integrala",
+              "score": 5.9,
+              "note": "Umedă, fără crocant."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "demo-gara",
+      "name": "Fast Kebab Gara de Nord",
+      "address": "Calea Griviței 139, București",
+      "lat": 44.4467,
+      "lng": 26.0743,
+      "isDemo": true,
+      "reviews": [
+        {
+          "id": "rev-gara-1",
+          "visitedAt": "2025-12-09",
+          "description": "Doar dacă ești deja în gară. Carne uscată, sos generic, grabă vizibilă.",
+          "generalScore": 4.8,
+          "ingredients": [
+            {
+              "ingredientId": "carne",
+              "typeId": "amestec",
+              "score": 4.5,
+              "note": "Uscată pe margini."
+            },
+            {
+              "ingredientId": "sos",
+              "typeId": "iaurt",
+              "score": 5.1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

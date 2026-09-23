@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@import 'maplibre-gl/dist/maplibre-gl.css';
+
+@theme {
+  --font-sans: 'Segoe UI', 'IBM Plex Sans', 'Noto Sans', sans-serif;
+  --color-cream: #f6efe4;
+  --color-ink: #1f1611;
+  --color-paprika: #c2410c;
+  --color-charcoal: #2a211b;
+  --color-gold: #c9a227;
+  --radius-lg: 0.9rem;
+  --radius-md: 0.65rem;
+  --radius-sm: 0.4rem;
+}
+
+:root {
+  color: var(--color-ink);
+  background: var(--color-cream);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, #fff8ee 0, transparent 34%),
+    linear-gradient(180deg, #f6efe4 0%, #efe3d2 100%);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+.maplibregl-popup-content {
+  background: #fffaf3;
+  color: #1f1611;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgb(31 22 17 / 0.18);
+  padding: 12px 14px;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+  border-top-color: #fffaf3;
+}
+
+.maplibregl-ctrl-attrib {
+  font-size: 11px;
+}
