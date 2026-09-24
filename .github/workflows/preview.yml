@@ -1,0 +1,101 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  deployments: write
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install
+        run: npm ci
+      - name: Verify and build
+        run: npm run lint && npm test && npm run build
+        env:
+          VITE_MAPTILER_KEY: ${{ vars.CI_MAPTILER_KEY || 'ci-placeholder' }}
+      - name: Upload preview artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-pr-${{ github.event.pull_request.number }}
+          path: dist
+          retention-days: 14
+
+  artifact-comment:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Comment preview artifact link
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            const body = [
+              '## PR preview build',
+              '',
+              'Static site build succeeded. Download the **`preview-pr-' + prNumber + '`** artifact from this workflow run and open `index.html` locally, or use `npx serve` on the extracted folder.',
+              '',
+              `[Open workflow run](${runUrl})`,
+            ].join('\n')
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            })
+
+            const marker = '<!-- pr-preview-artifact -->'
+            const existing = comments.find((c) => c.body?.includes(marker))
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body: marker + '\n' + body,
+              })
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body: marker + '\n' + body,
+              })
+            }
+
+  cloudflare-preview:
+    needs: build
+    if: vars.CF_PAGES_PROJECT_NAME != ''
+    runs-on: ubuntu-latest
+    name: Cloudflare Pages preview
+    steps:
+      - name: Download preview artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: preview-pr-${{ github.event.pull_request.number }}
+          path: dist
+      - name: Publish to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: ${{ vars.CF_PAGES_PROJECT_NAME }}
+          directory: dist
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

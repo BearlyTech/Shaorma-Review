@@ -59,7 +59,28 @@ Harta folosește stilul Streets v2 și păstrează atribuirea MapTiler / OpenStr
 
 1. În repo, Settings → Pages → **GitHub Actions**.
 2. Adaugă secretul `VITE_MAPTILER_KEY`.
-3. Push pe `main`. Workflow-ul din `.github/workflows/deploy.yml` rulează lint, teste, build și publică `dist`.
+3. Push pe `main`. Workflow-ul din `.github/workflows/deploy.yml` rulează lint, teste, build și publică `dist` (doar când se schimbă codul aplicației, nu doar README).
+
+### Workflow-uri
+
+| Workflow | Când rulează |
+| -------- | -------------- |
+| [ci.yml](.github/workflows/ci.yml) | Pull request — lint, teste, build |
+| [preview.yml](.github/workflows/preview.yml) | Pull request — artefact `dist` + comentariu pe PR |
+| [deploy.yml](.github/workflows/deploy.yml) | Push pe `main` (path filter) sau manual |
+| [dependabot.yml](.github/dependabot.yml) | Actualizări săptămânale npm și GitHub Actions |
+
+**Branch protection (recomandat):** Pentru repo **privat**, regulile pe `main` cer GitHub **Team** (org) sau **Pro** (cont personal), sau fă repo-ul **public** (Free). Settings → Branches / Rulesets → require status check **CI / verify** după primul PR cu CI verde.
+
+**Repo org:** [BearlyTech/Shaorma-Review](https://github.com/BearlyTech/Shaorma-Review). Remote local:
+
+```bash
+git remote set-url origin git@github.com:BearlyTech/Shaorma-Review.git
+```
+
+După transfer, re-activează Pages → **GitHub Actions** (secretul `VITE_MAPTILER_KEY` e deja în org).
+
+**Preview live (opțional):** setează variabila `CF_PAGES_PROJECT_NAME` și secretele `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID` pentru deploy Cloudflare Pages la PR.
 
 ## Scripturi
 
