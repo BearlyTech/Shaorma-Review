@@ -19,8 +19,10 @@ export function KebabMap({ restaurants, selectedId, mapKey, onSelect, onMapClick
   const onSelectRef = useRef(onSelect)
   const onMapClickRef = useRef(onMapClick)
 
-  onSelectRef.current = onSelect
-  onMapClickRef.current = onMapClick
+  useEffect(() => {
+    onSelectRef.current = onSelect
+    onMapClickRef.current = onMapClick
+  })
 
   useEffect(() => {
     if (!containerRef.current || !mapKey) return
