@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { FiltersBar } from '@/components/FiltersBar'
 import { KebabMap } from '@/components/KebabMap'
+import { ReviewList } from '@/components/ReviewList'
 import { TierList } from '@/components/TierList'
 import rawSiteData from '@/data/kebab-places.json'
 import { EMPTY_FILTERS, type PlaceFilters, visibleRestaurants } from '@/lib/filters'
@@ -71,7 +72,7 @@ export function PublicGuide({ initialData, preview = false }: PublicGuideProps) 
 
       <main className="mx-auto max-w-7xl space-y-4 px-4 py-4">
         <FiltersBar filters={filters} ingredients={data.ingredients} onChange={setFilters} />
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1.15fr)_minmax(22rem,0.85fr)] lg:items-start">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,2fr)_minmax(14rem,1fr)] lg:items-start">
           <div className="h-[42vh] lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)]">
             <KebabMap
               restaurants={restaurants}
@@ -80,12 +81,19 @@ export function PublicGuide({ initialData, preview = false }: PublicGuideProps) 
               onSelect={selectPlace}
             />
           </div>
-          <TierList
+          <ReviewList
             restaurants={restaurants}
             ingredients={data.ingredients}
             selectedId={visibleSelectedId}
             onSelect={selectPlace}
           />
+          <div className="lg:sticky lg:top-4">
+            <TierList
+              restaurants={restaurants}
+              selectedId={visibleSelectedId}
+              onSelect={selectPlace}
+            />
+          </div>
         </div>
       </main>
     </div>

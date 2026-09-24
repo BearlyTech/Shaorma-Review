@@ -6,14 +6,6 @@ import { listItemId } from '@/lib/selection'
 import type { Ingredient, RestaurantView, Review } from '@/lib/site-data'
 import { cn } from '@/lib/utils'
 
-const TIER_TONES: Record<string, string> = {
-  S: 'bg-gold text-ink',
-  A: 'bg-emerald-700 text-white',
-  B: 'bg-sky-800 text-white',
-  C: 'bg-amber-700 text-white',
-  D: 'bg-stone-600 text-white',
-}
-
 function reviewIngredients(review: Review, ingredients: Ingredient[]) {
   return review.ingredients.map((assessment) => {
     const ingredient = ingredients.find((item) => item.id === assessment.ingredientId)
@@ -47,12 +39,7 @@ export function PlaceCard({ restaurant, ingredients, selected, onSelect }: Place
               <h3 className="text-lg font-semibold">{restaurant.name}</h3>
               <p className="text-sm text-ink/65">{restaurant.address}</p>
             </div>
-            <div className="flex items-center gap-2">
-              {restaurant.isDemo ? <Badge>Date demo</Badge> : null}
-              <span className={cn('rounded-full px-2.5 py-1 text-xs font-bold', TIER_TONES[restaurant.tier])}>
-                Nivel {restaurant.tier}
-              </span>
-            </div>
+            {restaurant.isDemo ? <Badge>Date demo</Badge> : null}
           </div>
           <p className="text-sm">
             Ultima notă: <strong>{formatScore(restaurant.latest.generalScore)}</strong>
