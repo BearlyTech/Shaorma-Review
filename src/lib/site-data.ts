@@ -149,7 +149,7 @@ export function validateSiteData(input: unknown): SiteData {
   try {
     parsed = siteDataSchema.parse(input)
   } catch (error) {
-    throw new Error(formatSiteDataError(error))
+    throw new Error(formatSiteDataError(error), { cause: error })
   }
 
   for (const ingredient of parsed.ingredients) {
