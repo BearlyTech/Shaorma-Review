@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { FiltersBar } from '@/components/FiltersBar'
 import { KebabMap } from '@/components/KebabMap'
 import { TierList } from '@/components/TierList'
 import rawSiteData from '@/data/kebab-places.json'
 import { EMPTY_FILTERS, type PlaceFilters, visibleRestaurants } from '@/lib/filters'
 import { maptilerKey } from '@/lib/maptiler'
-import { listItemId } from '@/lib/selection'
+import { findSelectedRestaurant, listItemId } from '@/lib/selection'
 import { parseSiteData, type SiteData } from '@/lib/site-data'
 
 interface PublicGuideProps {
@@ -14,28 +14,22 @@ interface PublicGuideProps {
 }
 
 export function PublicGuide({ initialData, preview = false }: PublicGuideProps) {
-  const [error, setError] = useState<string | null>(null)
-  const [data, setData] = useState<SiteData | null>(null)
   const [filters, setFilters] = useState<PlaceFilters>(EMPTY_FILTERS)
   const [selectedId, setSelectedId] = useState<string | null>(null)
 
-  useEffect(() => {
+  const { data, error } = useMemo(() => {
     try {
-      setData(parseSiteData(initialData ?? rawSiteData))
-      setError(null)
+      return { data: parseSiteData(initialData ?? rawSiteData), error: null }
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : 'Datele site-ului sunt invalide.')
+      return {
+        data: null,
+        error: loadError instanceof Error ? loadError.message : 'Datele site-ului sunt invalide.',
+      }
     }
   }, [initialData])
 
   const restaurants = useMemo(() => (data ? visibleRestaurants(data, filters) : []), [data, filters])
-
-  useEffect(() => {
-    if (!selectedId) return
-    if (!restaurants.some((item) => item.id === selectedId)) {
-      setSelectedId(null)
-    }
-  }, [restaurants, selectedId])
+  const visibleSelectedId = findSelectedRestaurant(restaurants, selectedId)?.id ?? null
 
   function selectPlace(id: string) {
     setSelectedId(id)
@@ -81,7 +75,7 @@ export function PublicGuide({ initialData, preview = false }: PublicGuideProps) 
           <div className="h-[42vh] lg:sticky lg:top-4 lg:h-[calc(100vh-8rem)]">
             <KebabMap
               restaurants={restaurants}
-              selectedId={selectedId}
+              selectedId={visibleSelectedId}
               mapKey={maptilerKey()}
               onSelect={selectPlace}
             />
@@ -89,7 +83,7 @@ export function PublicGuide({ initialData, preview = false }: PublicGuideProps) 
           <TierList
             restaurants={restaurants}
             ingredients={data.ingredients}
-            selectedId={selectedId}
+            selectedId={visibleSelectedId}
             onSelect={selectPlace}
           />
         </div>
